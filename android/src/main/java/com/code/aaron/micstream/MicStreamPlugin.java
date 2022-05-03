@@ -182,6 +182,9 @@ public class MicStreamPlugin implements FlutterPlugin, EventChannel.StreamHandle
             default:
                 try {
                     BUFFER_SIZE = AudioRecord.getMinBufferSize(SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT);
+                    if (BUFFER_SIZE < 4096) { //TODO: This should default to the next larger power of two, be set-able through the config and throw an exceptin when it's false 
+                        BUFFER_SIZE = 4096;
+                    }
                 } catch (Exception e) {
                     eventSink.error("-3", "Invalid AudioRecord parameters", e);
                 }
